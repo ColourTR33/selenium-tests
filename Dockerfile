@@ -3,6 +3,9 @@ FROM ubuntu:20.04
 
 # Set the timezone (optional, adjust as needed)
 ENV TZ=Europe/London
+ENV USER root
+ENV VNC_PASSWORD=yourPassword123!
+
 RUN apt-get update && apt-get install -y tzdata
 
 # Install necessary dependencies
@@ -19,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     tightvncserver \
     novnc \
     websockify \
+    curl \
     && apt-get clean
 
 # Install geckodriver (for Firefox)
