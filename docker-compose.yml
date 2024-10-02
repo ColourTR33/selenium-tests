@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  selenium:
+    build: .
+    ports:
+      - "6080:6080"  # For noVNC
+    volumes:
+      - ./logs:/app/logs  # Mount logs directory
+    environment:
+      - DISPLAY=:1
+    command: >
+      sh -c "vncserver :1 -geometry 1920x1080 -depth 24 &&
+             websockify --web /usr/share/novnc 6080 localhost:5901 &&
+             tail -f /dev/null"

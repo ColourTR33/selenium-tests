@@ -1,0 +1,30 @@
+name: Pylint
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch if different
+  pull_request:
+    branches:
+      - main  # Change this to your default branch if different
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'  # Change this to your desired Python version
+
+    - name: Install dependencies
+      run: |
+        pip install pylint
+
+    - name: Run Pylint
+      run: |
+        master_test.py  # Adjust this to your main script or all Python files
