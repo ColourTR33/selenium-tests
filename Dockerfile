@@ -4,7 +4,6 @@ FROM ubuntu:20.04
 # Set the timezone (optional, adjust as needed)
 ENV TZ=Europe/London
 ENV USER root
-ENV VNC_PASSWORD=yourPassword123!
 
 RUN apt-get update && apt-get install -y tzdata
 
@@ -48,5 +47,8 @@ RUN mkdir logs
 # Copy your test code into the container
 COPY . /app
 
+# Set a valid VNC password
+ENV VNC_PASSWORD=MyPass123!
+
 # Start VNC server, websockify, and the window manager
-CMD ["sh", "-c", "vncserver :1 -geometry 1920x1080 -depth 24 && websockify --web /usr/share/novnc 6080 localhost:5901 && tail -f /dev/null"]
+CMD ["sh", "-c", "mkdir -p ~/.vnc && echo \"$VNC_PASSWORD\" | vncpasswd -f && mv ~/.vnc/passwd ~/.vnc/passwd.bak && echo \"$VNC_PASSWORD\" | vncpasswd -f ~/.vnc/passwd && chmod 600 ~/.vnc/passwd && vncserver :1 -geometry 1920x1080 -depth 24 && websockify --web /usr/share/novnc 6080 localhost:5901 && tail -f /dev/null"]
